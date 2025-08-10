@@ -22,11 +22,11 @@
         --h-custom: 3.25rem
       }
 
-      .light {
+      .light-theme {
         color-scheme: light;
       }
 
-      .dark {
+      .dark-theme {
         color-scheme: dark;
       }
 
@@ -45,7 +45,6 @@
 
       #content-container {
         display: flex;
-        /* padding: 5rem; */
         padding: 8rem;
         width: 100%;
         min-height: 100%;
@@ -79,7 +78,6 @@
       @media (max-width: 768px) {
         .proton-logo {
           position: initial;
-          margin-top: 1rem;
           margin-bottom: 0.5rem;
         }
       }
@@ -106,17 +104,17 @@
         stroke: var(--gray);
       }
 
-      body.light .toggle-icon-sun {
+      body.light-theme .toggle-icon-sun {
         stroke: var(--purple);
         border-color: var(--purple);
       }
 
-      body.dark .toggle-icon-moon {
+      body.dark-theme .toggle-icon-moon {
         stroke: var(--purple);
         border-color: var(--purple);
       }
 
-      body.dark .toggle-icon-moon path {
+      body.dark-theme .toggle-icon-moon path {
         stroke: var(--purple);
         border-color: var(--purple);
       }
@@ -151,7 +149,11 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-        margin: 0 auto;
+      }
+      @media (max-width: 768px) {
+        .apps-grid {
+          margin-bottom: 1rem;
+        }
       }
       @media (max-width: 360px) {
         .apps-grid {
@@ -357,7 +359,7 @@
       content="https://account.proton.me/assets/browserconfig.xml"
     />
   </head>
-  <body class="dark">
+  <body>
     <div id="content-container">
       <div id="content">
         <button id="theme-toggle">
@@ -1082,21 +1084,23 @@
     // Function to toggle theme
     function toggleTheme() {
         const body = document.body;
-        const currentTheme = body.classList.contains('dark') ? 'dark' : 'light';
+        const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
         const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
         // Update theme class
-        body.classList.remove(currentTheme);
-        body.classList.add(newTheme);
+        body.classList.remove(currentTheme + '-theme');
+        body.classList.add(newTheme + '-theme');
 
         // Save theme to localStorage
         localStorage.setItem('theme', newTheme);
     }
 
+    console.log(localStorage.getItem('theme'))
+
     // Load theme from localStorage on page load
     window.onload = function() {
-        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark theme
-        document.body.classList.add(savedTheme);
+        const savedTheme = localStorage.getItem('theme') || "light"; // Default to dark theme
+        document.body.classList.add(savedTheme + '-theme');
     };
 
     // Add event listener to the theme toggle button
